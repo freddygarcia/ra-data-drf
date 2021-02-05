@@ -47,7 +47,7 @@ const drfProvider = (apiUrl, httpClient=fetchUtils.fetchJson) => {
                     ordering: `${order === 'ASC' ? '' : '-'}${field}`,
                     ...filter
                 };
-                url = `${apiUrl}/${resource}/?${JSON.stringify(query)}`;
+                url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
             }
             case GET_MANY_REFERENCE: {
@@ -61,7 +61,7 @@ const drfProvider = (apiUrl, httpClient=fetchUtils.fetchJson) => {
                     ...filter,
                     [target]: id
                 };
-                url = `${apiUrl}/${resource}/?${JSON.stringify(query)}`;
+                url = `${apiUrl}/${resource}/?${stringify(query)}`;
                 break;
             }
             case UPDATE:
@@ -175,6 +175,8 @@ const drfProvider = (apiUrl, httpClient=fetchUtils.fetchJson) => {
         }
 
         const { url, options } = convertDataRequestToHttp(type, resource, params);
+
+        console.log({url, options})
         return httpClient(url, options)
             .then(response => convertHttpResponse(response, type, resource, params));
     }
